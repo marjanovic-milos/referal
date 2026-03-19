@@ -3,16 +3,19 @@ import { auth } from "@/firebase/db";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { createUser, getUser } from "@/app/services/users";
 import { useSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
 
 export const useAuth = () => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter(); // ✅ Uncomment this
 
   const mutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       enqueueSnackbar("Uspesna registracija!");
+      router.push("/admin");
     },
   });
 
@@ -35,11 +38,14 @@ export const useAuth = () => {
             email: user?.email,
             photoURL: user?.photoURL,
           });
+        } else {
+          router.push("/admin"); // ✅ Navigate for existing users
         }
       } catch (error) {
         console.error(error);
       }
     }
   };
+
   return { handleGoogleLogin };
 };

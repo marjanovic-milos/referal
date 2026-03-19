@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, createContext, useContext } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "@/firebase/db";
 const AuthContext = createContext(null);
@@ -16,10 +17,13 @@ export function AuthGuard({ children }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  const pathname = usePathname();
+
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
+        if (pathname === "/login") router.replace("/admin");
       } else {
         router.replace("/login");
       }
@@ -27,7 +31,7 @@ export function AuthGuard({ children }) {
     });
 
     return () => unsub();
-  }, [router]);
+  }, [router, pathname]);
 
   const logout = async () => {
     await signOut(auth);
@@ -35,7 +39,7 @@ export function AuthGuard({ children }) {
   };
 
   if (loading) return <div>Loading...</div>;
-  if (!user) return null;
+  if (!user && pathname !== "/login") return null;
 
   return <AuthContext.Provider value={{ user, logout }}>{children}</AuthContext.Provider>;
 }

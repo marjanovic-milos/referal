@@ -1,16 +1,10 @@
 "use client";
-import { AuthGuard, useAuthContext } from "../components/pageGuard/withAuth";
-
-const DashboardPage = () => {
-  const { logout } = useAuthContext();
+import { AuthGuard } from "../components/pageGuard/withAuth";
+import { Admin } from "../components/admin/Admin";
+export default function DashboardPage() {
   return (
     <AuthGuard>
-      <div>
-        Welcome,
-        <button onClick={logout}>Logout</button>
-      </div>
+      <Admin />
     </AuthGuard>
   );
-};
-
-export default DashboardPage;
+}
