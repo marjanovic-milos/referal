@@ -5,37 +5,30 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   InputGroup,
   InputRightElement,
   Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
   AbsoluteCenter,
   IconButton,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import GoogleLogin from "../auth/google";
+import { useAuth } from "@/app/hooks/users/useAuth";
 const LoginForm = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { handleLogin } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // login({ phone, password })
+    handleLogin({ phone, password });
   };
   return (
     <Stack as="form" onSubmit={handleSubmit} spacing={4} pt={2}>
-      {/* <GoogleButton onClick={googleLogin} isLoading={googlePending} /> */}
       <GoogleLogin />
       <Box position="relative" py={2}>
         <Divider />

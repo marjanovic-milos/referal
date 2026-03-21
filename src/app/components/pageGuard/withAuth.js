@@ -23,9 +23,9 @@ export function AuthGuard({ children }) {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
-        if (pathname === "/login") router.replace("/admin");
+        router.replace("/admin");
       } else {
-        router.replace("/login");
+        router.replace("/");
       }
       setLoading(false);
     });
@@ -39,7 +39,10 @@ export function AuthGuard({ children }) {
   };
 
   if (loading) return <div>Loading...</div>;
-  if (!user && pathname !== "/login") return null;
 
-  return <AuthContext.Provider value={{ user, logout }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }

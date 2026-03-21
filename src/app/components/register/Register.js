@@ -5,25 +5,19 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   InputGroup,
   InputRightElement,
   Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Text,
   AbsoluteCenter,
   IconButton,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import GoogleLogin from "../auth/google";
+import { useAuth } from "@/app/hooks/users/useAuth";
 
 const RegisterForm = () => {
   const [phone, setPhone] = useState("");
@@ -33,12 +27,13 @@ const RegisterForm = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   //   const { mutate: register, isPending, error } = useRegister();
   //   const { mutate: googleLogin, isPending: googlePending } = useGoogleLogin();
-
+  const { handleRegistration } = useAuth();
   const passwordMismatch = confirm.length > 0 && password !== confirm;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== confirm) return;
+    handleRegistration({ phone, password });
     // register({ phone, password });
   };
 
