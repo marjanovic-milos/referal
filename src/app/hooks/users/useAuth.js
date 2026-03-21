@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 export const useAuth = () => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
-  const router = useRouter(); // ✅ Uncomment this
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: createUser,
@@ -30,8 +30,8 @@ export const useAuth = () => {
 
     if (user) {
       try {
-        const data = await checkUser(user?.uid);
-        if (!data) {
+        const userExists = await checkUser(user?.uid);
+        if (!userExists) {
           mutation.mutate({
             uid: user?.uid,
             displayName: user?.displayName,
@@ -39,7 +39,7 @@ export const useAuth = () => {
             photoURL: user?.photoURL,
           });
         } else {
-          router.push("/admin"); // ✅ Navigate for existing users
+          router.push("/admin");
         }
       } catch (error) {
         console.error(error);

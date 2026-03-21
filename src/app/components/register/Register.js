@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
 
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -24,19 +24,28 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import GoogleLogin from "../auth/google";
-const LoginForm = () => {
+
+const RegisterForm = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  //   const { mutate: register, isPending, error } = useRegister();
+  //   const { mutate: googleLogin, isPending: googlePending } = useGoogleLogin();
+
+  const passwordMismatch = confirm.length > 0 && password !== confirm;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // login({ phone, password })
+    if (password !== confirm) return;
+    // register({ phone, password });
   };
+
   return (
     <Stack as="form" onSubmit={handleSubmit} spacing={4} pt={2}>
-      {/* <GoogleButton onClick={googleLogin} isLoading={googlePending} /> */}
       <GoogleLogin />
+
       <Box position="relative" py={2}>
         <Divider />
         <AbsoluteCenter bg="white" px={3} fontSize="sm" color="gray.500">
@@ -59,7 +68,7 @@ const LoginForm = () => {
         <InputGroup>
           <Input
             type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
+            placeholder="Choose a password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -75,10 +84,36 @@ const LoginForm = () => {
         </InputGroup>
       </FormControl>
 
+      <FormControl isRequired isInvalid={passwordMismatch}>
+        <FormLabel fontSize="sm">Repeat password</FormLabel>
+        <InputGroup>
+          <Input
+            type={showConfirm ? "text" : "password"}
+            placeholder="Repeat your password"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+          />
+          <InputRightElement>
+            <IconButton
+              variant="ghost"
+              size="sm"
+              aria-label={showConfirm ? "Hide password" : "Show password"}
+              icon={showConfirm ? <ViewOffIcon /> : <ViewIcon />}
+              onClick={() => setShowConfirm((v) => !v)}
+            />
+          </InputRightElement>
+        </InputGroup>
+        {passwordMismatch && (
+          <Text fontSize="xs" color="red.500" mt={1}>
+            Passwords do not match.
+          </Text>
+        )}
+      </FormControl>
+
       {/* {error && (
         <Text fontSize="sm" color="red.500">
-          {error.code === "auth/invalid-credential"
-            ? "Incorrect phone number or password."
+          {error.code === "auth/email-already-in-use"
+            ? "An account with this number already exists."
             : error.message}
         </Text>
       )} */}
@@ -88,10 +123,12 @@ const LoginForm = () => {
         colorScheme="blue"
         width="full"
         // isLoading={isPending}
+        isDisabled={passwordMismatch}
       >
-        Sign in
+        Create account
       </Button>
     </Stack>
   );
 };
-export default LoginForm;
+
+export default RegisterForm;

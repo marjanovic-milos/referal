@@ -4,44 +4,58 @@ import UsersList from "./components/userList";
 import CreateUser from "./components/createUser";
 import GoogleLogin from "./components/auth/google";
 import { useSnackbar } from "notistack";
-
-import { Card, CardHeader, CardBody, CardFooter, Stack, Heading, Divider, ButtonGroup, Text, Button } from "@chakra-ui/react";
+// import { LoginForm } from "./components/login/Login";
+import LoginForm from "./components/login/Login";
+import RegisterForm from "./components/register/Register";
+import {
+  Box,
+  Flex,
+  Heading,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  AbsoluteCenter,
+  IconButton,
+} from "@chakra-ui/react";
 export default function Home() {
   const { enqueueSnackbar } = useSnackbar();
 
   return (
-    <div className='flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-      <UsersList />
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+      <Flex minH="100vh" align="center" justify="center" bg="gray.50">
+        <Box
+          bg="white"
+          rounded="xl"
+          shadow="md"
+          px={{ base: 6, md: 10 }}
+          py={8}
+          w="full"
+          maxW="420px"
+        >
+          <Heading size="md" mb={6} textAlign="center" fontWeight="600">
+            Welcome
+          </Heading>
 
-      {/* <Button onClick={() => enqueueSnackbar("I love hooks")}>Show snackbar</Button> */}
-      {/* 
-      <Card maxW='sm'>
-        <CardBody>
-          <Image width={100} height={100} src='../../public/vercel.svg' alt='Green double couch with wooden legs' borderRadius='lg' />
-          <Stack mt='6' spacing='3'>
-            <Heading size='md'>Living room Sofa</Heading>
-            <Text>
-              This sofa is perfect for modern tropical spaces, baroque inspired spaces, earthy toned spaces and for people who love a chic design with
-              a sprinkle of vintage design.
-            </Text>
-            <Text color='blue.600' fontSize='2xl'>
-              $450
-            </Text>
-          </Stack>
-        </CardBody>
-        <Divider />
-        <CardFooter>
-          <ButtonGroup spacing='2'>
-            <Button variant='solid' colorScheme='blue'>
-              Buy now
-            </Button>
-            <Button variant='ghost' colorScheme='blue'>
-              Add to cart
-            </Button>
-          </ButtonGroup>
-        </CardFooter>
-      </Card> */}
-      <CreateUser />
+          <Tabs variant="soft-rounded" colorScheme="blue" isFitted>
+            <TabList mb={6}>
+              <Tab fontSize="sm">Sign in</Tab>
+              <Tab fontSize="sm">Register</Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel px={0} pb={0}>
+                <LoginForm />
+              </TabPanel>
+              <TabPanel px={0} pb={0}>
+                <RegisterForm />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Box>
+      </Flex>
     </div>
   );
 }
