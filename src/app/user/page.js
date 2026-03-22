@@ -1,12 +1,12 @@
 import React from "react";
-import { AuthGuard } from "../components/pageGuard/withAuth";
-import { User } from "../components/user/User";
 
+import { UserLayout } from "../components/userLayout/UserLayout";
+import PageGuard from "../components/pageGuard/authGuard";
 const UserPage = () => {
   return (
-    <AuthGuard>
-      <User />
-    </AuthGuard>
+    <PageGuard>
+      <UserLayout>Home User</UserLayout>
+    </PageGuard>
   );
 };
 

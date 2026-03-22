@@ -1,12 +1,12 @@
-/** @type {import('tailwindcss').Config} */
+// You can delete this file entirely in v4
+// OR keep it only if you need custom theme extensions
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  // Prevent Tailwind's preflight from fighting Chakra's base styles
-  corePlugins: {
-    preflight: false,
-  },
+  content: [
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+    "./pages/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     extend: {},
   },
-  plugins: [],
 };

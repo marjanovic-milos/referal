@@ -1,16 +1,17 @@
-"use client";
 import React from "react";
-
+import { Button } from "@chakra-ui/react";
 import { useAuthContext } from "../pageGuard/withAuth";
 import QRCodeLayout from "../qrCode/QRCode";
-export const User = () => {
+const ProfileCard = () => {
   const { logout, user } = useAuthContext();
 
   return (
     <div>
-      User
-      <button onClick={logout}>Logout</button>
+      Profil
+      <Button onClick={logout}>Logout</Button>
       <QRCodeLayout user={user} />
     </div>
   );
 };
+
+export default ProfileCard;

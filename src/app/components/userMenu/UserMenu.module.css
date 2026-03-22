@@ -1,0 +1,19 @@
+@reference "tailwindcss";
+
+.container {
+  @apply fixed bottom-0 left-0 w-full bg-white border-t shadow-md;
+  @apply p-10;
+ 
+
+}
+.container{
+ @apply flex w-full;
+ @apply justify-center gap-10;
+}
+ 
+.item{
+  width: 80px;
+  height: 80px;
+  @apply flex items-center  justify-center; 
+  @apply border-2 border-solid rounded-full;
+}
