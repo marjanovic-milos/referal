@@ -2,10 +2,13 @@
 import { Scanner } from "@yudiel/react-qr-scanner";
 
 const CodeScanner = () => {
+  const handleScan = (result) => {
+    alert(result[0].rawValue);
+  };
   return (
     <div>
       <Scanner
-        onScan={(result) => console.log(result[0].rawValue)}
+        onScan={(result) => handleScan(result)}
         onError={(error) => console.error(error)}
         styles={{
           container: { width: 300, borderRadius: 12 },
