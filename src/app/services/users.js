@@ -5,6 +5,8 @@ import {
   getDocs,
   setDoc,
   addDoc,
+  query,
+  where,
   updateDoc,
   deleteDoc,
   getFirestore,
@@ -16,11 +18,14 @@ const usersCollection = collection(db, "users");
 
 // Get single user
 export const getUser = async (id) => {
-  const snapshot = await getDoc(doc(db, "users", id));
-  if (!snapshot.exists()) {
-    return { status: false, data: {} };
+  const q = query(collection(db, "users"), where("uid", "==", id));
+  const snapshot = await getDocs(q);
+  const user = snapshot.docs[0]?.data();
+
+  if (user) {
+    return { status: true, data: user };
   }
-  return { data: { id: snapshot.id, ...snapshot.data() } };
+  return { status: false, data: {} };
 };
 
 // Get all users

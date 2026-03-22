@@ -26,10 +26,7 @@ export const useAuth = () => {
 
   const phoneToEmail = (phone) => `${phone.replace(/\s+/g, "")}@yourapp.com`;
 
-  const checkUser = async (id) => {
-    const { status } = await getUser(id);
-    return status;
-  };
+  const checkUser = async (id) => await getUser(id);
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -37,8 +34,9 @@ export const useAuth = () => {
 
     if (user) {
       try {
-        const userExists = await checkUser(user?.uid);
-        if (!userExists) {
+        const { status } = await checkUser(user?.uid);
+
+        if (!status) {
           createUserMutation.mutate({
             uid: user?.uid,
             displayName: user?.displayName,
@@ -86,5 +84,5 @@ export const useAuth = () => {
       console.log(error);
     }
   };
-  return { handleGoogleLogin, handleRegistration, handleLogin };
+  return { handleGoogleLogin, handleRegistration, handleLogin, checkUser };
 };
